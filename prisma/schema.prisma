@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id                    Int              @id @default(autoincrement())
+  tipo                  UsuarioTipoEnum  @default(USUARIO)
+  nome                  String
+  email                 String           @unique
+  emailConfirmadoEm     DateTime?
+  tokenConfirmacaoEmail String?
+  senha                 String
+  ultimaAlteracaoSenha  DateTime?
+  tokenRecuperacaoSenha String?
+  criadoEm              DateTime         @default(now())
+  atualizadoEm          DateTime         @updatedAt
+  empresas              UsuarioEmpresa[]
+
+  @@map("usuarios")
+}
+
+enum UsuarioTipoEnum {
+  ADMIN
+  USUARIO
+}
+
+model Empresa {
+  id           Int              @id @default(autoincrement())
+  nome         String
+  cnpj         String           @unique
+  criadoEm     DateTime         @default(now())
+  atualizadoEm DateTime         @updatedAt
+  usuarios     UsuarioEmpresa[]
+
+  @@map("empresas")
+}
+
+model UsuarioEmpresa {
+  empresaId     Int
+  usuarioId     Int
+  usuario       Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  empresa       Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  isResponsavel Boolean @default(false)
+
+  @@id([empresaId, usuarioId])
+  @@index([empresaId])
+  @@index([usuarioId])
+  @@map("usuario_empresas")
+}

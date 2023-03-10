@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "andrejunges.handlebars",
+    "pkief.material-icon-theme",
+    "dotenv.dotenv-vscode",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "mintlify.document",
+    "abhijoybasak.nestjs-files",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "esbenp.prettier-vscode",
+    "prisma.prisma"
+  ]
+}
